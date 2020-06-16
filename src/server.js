@@ -2,6 +2,8 @@ import express from "express";
 import articleRouter from "../routes/articles";
 import mongoose from "mongoose";
 import Article from "../models/articles";
+import methodOverride from "method-override";
+
 const PORT = 5000;
 const app = express();
 
@@ -14,6 +16,7 @@ mongoose.connect("mongodb://localhost/blog", {
 app.set("view engine", "ejs");
 
 app.use(express.urlencoded({ extended: false }));
+app.use(methodOverride("_method"));
 
 app.get("/", async (req, res) => {
   const articles = await Article.find().sort({ createdAt: "desc" });
